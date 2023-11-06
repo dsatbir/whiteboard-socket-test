@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.io Client</title>
+</head>
+<body>
+  <button id="emit-button">Click to Emit Custom Event</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script>
+    // Replace 'YOUR_BACKEND_URL' with the actual URL of your deployed backend
+    const socket = io('http://localhost:8080');
+
+    // Listen for the 'connect' event
+    socket.on('connect', () => {
+      console.log('Connected to the backend server.', socket.id);
+      socket.emit('joinRoom', 'secondFrontEnd');
+   
+    });
+
+   
+
+    // Listen for a 'message' event from the server
+    socket.on('screen-shot', (data) => {
+      console.log('Hello', data);
+    });
+
+    socket.on('test', (data) => {
+      console.log('Received message from server:', data);
+    });
+
+    // Emit a 'chat message' event to the server
+    socket.emit('chat message', 'Hello, server!');
+
+    // Add a click event listener to the button
+    const emitButton = document.getElementById('emit-button');
+    emitButton.addEventListener('click', () => {
+      // Emit a custom event when the button is clicked
+      console.log("Button pressed");
+      socket.emit('custom-event', 'Custom event data');
+    });
+  </script>
+</body>
+</html>
